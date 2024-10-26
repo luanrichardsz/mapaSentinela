@@ -1,1 +1,0 @@
-# mapaSentinela2.0
