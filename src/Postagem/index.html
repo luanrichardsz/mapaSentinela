@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="imagex/png" href="../img/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/stylePubli.css">
+    <title>Sentinela 081</title>
+</head>
+<body>
+    <h1>Ocorrências Registradas</h1>
+    <ul id="ocorrencias-list"></ul>
+    <a href="/">Voltar</a>
+
+    <div id="message-modal">
+        <div id="modal-content">
+            <span class="close">&times;</span>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+
+    <script>
+        fetch('/api/ocorrencias')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('ocorrencias-list');
+                data.forEach(o => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${o.ocorrido} - Endereço: ${o.endereco}`;
+                    
+                    // Adicionar evento de clique
+                    listItem.addEventListener('click', () => {
+                        const modalMessage = document.getElementById('modal-message');
+                        modalMessage.textContent = `Ocorrência: ${o.ocorrido}\nEndereço: ${o.endereco}`;
+                        document.getElementById('message-modal').style.display = 'block';
+                    });
+
+                    list.appendChild(listItem);
+                });
+            })
+            .catch(err => console.error('Erro ao carregar ocorrências:', err));
+
+        // Fechar o modal ao clicar no "x"
+        document.querySelector('.close').addEventListener('click', () => {
+            document.getElementById('message-modal').style.display = 'none';
+        });
+
+        // Fechar o modal ao clicar fora do conteúdo
+        document.getElementById('message-modal').addEventListener('click', (event) => {
+            if (event.target === document.getElementById('message-modal')) {
+                document.getElementById('message-modal').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
