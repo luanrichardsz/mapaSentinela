@@ -76,6 +76,9 @@ function sucess(pos) {
                 window.location.href = `../Postar/index.html?lat=${lat}&lng=${lng}&message=${encodeURIComponent(userMessage)}`;
 
                 console.log(addressData)
+                // Colocar em um json para puxar no banco de dados e colocar l.maker 
+                console.log(lnt, lng)
+                
             })
             .catch(error => {
                 console.error("Erro ao obter o endereço:", error);
